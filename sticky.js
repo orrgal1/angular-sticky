@@ -2,7 +2,7 @@ angular.module("sticky", []).directive("sticky", function($window) {
   return {
     link: function(scope, element, attrs) {
 
-      var $win = angular.element($window);
+      var $win = angular.element(attrs.stickyDivId);
 
       if (scope._stickyElements === undefined) {
         scope._stickyElements = [];
@@ -15,6 +15,7 @@ angular.module("sticky", []).directive("sticky", function($window) {
 
             if (!item.isStuck && pos > item.start) {
               item.element.addClass("stuck");
+              item.element.css("margin-top",attrs.stickyMarginTop);
               item.isStuck = true;
 
               if (item.placeholder) {
@@ -25,6 +26,9 @@ angular.module("sticky", []).directive("sticky", function($window) {
             }
             else if (item.isStuck && pos < item.start) {
               item.element.removeClass("stuck");
+              if(attrs.stickyMarginTop) {
+                  item.element.css("margin-top","0px");
+              }
               item.isStuck = false;
 
               if (item.placeholder) {
